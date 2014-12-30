@@ -79,7 +79,8 @@ if (isset($this->controller_class)
         <dl>
             <dt><?php echo $this->translate('File') ?>:</dt>
             <dd>
-                <pre class="prettyprint linenums"><?php echo $e->getFile() ?>:<?php echo $e->getLine() ?></pre>
+                <pre class="prettyprint linenums"><?php /** @noinspection PhpUndefinedMethodInspection */
+                    echo $e->getFile() ?>:<?php echo $e->getLine() ?></pre>
             </dd>
             <dt><?php echo $this->translate('Message') ?>:</dt>
             <dd>
