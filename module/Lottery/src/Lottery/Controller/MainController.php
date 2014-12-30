@@ -8,12 +8,15 @@
 
 namespace Lottery\Controller;
 
-use Zend\Mvc\Controller\AbstractActionController;
-use Zend\View\Model\ViewModel;
 
-class MainController extends  AbstractActionController
+use Zend\Mvc\Controller\AbstractActionController;
+use Lottery\Model\UpVoters;
+
+class MainController extends AbstractActionController
 {
     public function indexAction()
     {
+        $upVoters = new UpVoters("http://www.wykop.pl/wpis/10749394/czy-warto-pamietac-prawdziwe-fakty-czy-pozwolic-na/", "Riposte");
+        var_dump($upVoters->getActiveUpVoters());
     }
 }
