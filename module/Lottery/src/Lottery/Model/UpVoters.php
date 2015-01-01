@@ -78,4 +78,10 @@ class UpVoters
         else
             throw new \Exception("Set UpVoters first.");
     }
+
+    public function getActiveUpVotersCount()
+    {
+        return count($this->activeUpVoters);
+    }
+
 }
