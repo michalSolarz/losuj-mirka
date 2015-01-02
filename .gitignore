@@ -7,4 +7,8 @@ nbproject
 .project
 .settings
 composer.lock
+composer.json
+composer.phar
+LICENSE.txt
+README.md
 vendor/bin
