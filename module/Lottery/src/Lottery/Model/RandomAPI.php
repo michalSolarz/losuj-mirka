@@ -69,10 +69,10 @@ class RandomAPI
                     "method" => "generateIntegers",
                     "params" => array(
                         "apiKey" => $this->apiKey,
-                        "n" => 1,
+                        "n" => $this->count,
                         "min" => $this->downLimit,
                         "max" => $this->upLimit,
-                        "replacement" => true,
+                        "replacement" => false,
                         "base" => 10),
                     "id" => $this->generateRequestId(),
                 );
@@ -112,7 +112,7 @@ class RandomAPI
                 $result = $content->result->requestsLeft;
                 break;
             case 1:
-                $result = $content->result->random->data[0];
+                $result = $content->result->random->data;
                 break;
         }
 
@@ -121,13 +121,7 @@ class RandomAPI
 
     private function random()
     {
-        for ($i = 0; $i < $this->count; $i++) {
-            $randomNumber = $this->parseResponse(1);
-            if (!in_array($randomNumber, $this->result))
-                $this->result[$i] = $randomNumber;
-            else
-                $i--;
-        }
+        $this->result = $this->parseResponse(1);
     }
 
     public function apiAvailable()

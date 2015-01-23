@@ -52,7 +52,7 @@ class UpVoters
             $this->activeUpVoters = $this->upVoters;
             $this->inactiveUpVoters = array_splice($this->activeUpVoters, ($this->lastUpVoterPosition + 1));
         } else
-            throw new \Exception("Set UpVoters and LastUpVoter first.");
+            throw new \Exception("Set UpVoters and LastUpVoter first. Probably invalid last UpVoter nickname.");
     }
 
     public function getActiveUpVoters()

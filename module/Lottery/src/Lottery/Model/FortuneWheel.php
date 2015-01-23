@@ -11,6 +11,8 @@ namespace Lottery\Model;
 
 class FortuneWheel
 {
+    private $em;
+
     private $baseLink;
     private $lastUpVoter;
     private $numbersAmount;
@@ -26,8 +28,11 @@ class FortuneWheel
     private $results;
     private $winners;
 
-    function __construct($baseLink, $lastUpVoter, $numbersAmount, $apiKey = NULL)
+    private $drawScore;
+
+    function __construct($em, $baseLink, $lastUpVoter, $numbersAmount, $apiKey = NULL)
     {
+        $this->em = $em;
         $this->setBaseLink($baseLink);
         $this->setLastUpVoter($lastUpVoter);
         $this->setNumbersAmount($numbersAmount);
@@ -37,6 +42,7 @@ class FortuneWheel
         $this->loadUpVoters();
         $this->setResults();
         $this->setWinners();
+        $this->drawScore = new DrawScore($this->em, $this->baseLink, $this->lastUpVoter, $this->upVoters, $this->activeUpVoters, $this->inactiveUpVoters, $this->winners);
     }
 
     private function setBaseLink($baseLink)

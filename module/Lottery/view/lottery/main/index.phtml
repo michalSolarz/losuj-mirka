@@ -1,2 +1,17 @@
 <?php
-//\Doctrine\Common\Util\Debug::dump($data);
+$form = $this->form;
+$form->setAttribute('action', $this->url('main', array('action' => 'index')));
+$form->prepare();
+
+echo $this->form()->openTag($form);
+?>
+    <div class="draw">
+        <?php echo $this->formRow($form->get('baseLink')); ?>
+        <?php echo $this->formRow($form->get('lastUpVoter')); ?>
+        <?php echo $this->formRow($form->get('numbersAmount')); ?>
+        <?php echo $this->formRow($form->get('csrf')); ?>
+        <?php echo $this->formRow($form->get('submit')); ?>
+    </div>
+<?php
+echo $this->form()->closeTag();
+?>

@@ -36,8 +36,9 @@ class Parser
 
     private function setBaseLink($baseLink)
     {
-        if (!isset($this->baseLink))
-            $this->baseLink = $baseLink;
+        if (!isset($this->baseLink)) {
+            $this->baseLink = $this->checkUrl($baseLink);
+        }
     }
 
     public function setRegistryProperties()
@@ -119,6 +120,25 @@ class Parser
         if ($content == NULL)
             return false;
         return $content;
+    }
+
+    private function checkUrl($baseLink)
+    {
+        $pattern1 = "/^(http:)\\/\\/(www.wykop.pl)\\/(wpis)\\/([0-9]*)\\/([a-zA-Z0-9-]*)/";
+        $pattern2 = "/^(http:)\\/\\/(wykop.pl)\\/(wpis)\\/([0-9]*)\\/([a-zA-Z0-9-]*)/";
+        $pattern3 = "/^(www.wykop.pl)\\/(wpis)\\/([0-9]*)\\/([a-zA-Z0-9-]*)/";
+        $pattern4 = "/^(wykop.pl)\\/(wpis)\\/([0-9]*)\\/([a-zA-Z0-9-]*)/";
+        if (preg_match($pattern1, $baseLink) || preg_match($pattern2, $baseLink)) {
+            $result = $baseLink;
+        } elseif (preg_match($pattern3, $baseLink)) {
+            $result = "http://" . $baseLink;
+        } elseif (preg_match($pattern4, $baseLink)) {
+            $result = "http://www." . $baseLink;
+        }
+        else{
+            $result = $baseLink;
+        }
+        return $result;
     }
 
     public function getAjaxUrl()

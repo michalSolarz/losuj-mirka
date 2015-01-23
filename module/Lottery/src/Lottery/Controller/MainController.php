@@ -10,27 +10,40 @@ namespace Lottery\Controller;
 
 
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\View\Model\ViewModel;
+
 use Lottery\Model\FortuneWheel;
+use Lottery\Form\DrawForm;
+use Lottery\FormValidator\DrawForm as DrawFormValidator;
 
 class MainController extends AbstractActionController
 {
+
+    protected $em;
+
+    public function getEntityManager()
+    {
+        if (null === $this->em) {
+            $this->em = $this->getServiceLocator()->get('doctrine.entitymanager.orm_default');
+        }
+        return $this->em;
+    }
+
     public function indexAction()
     {
-//        $upVoters = new UpVoters("http://www.wykop.pl/wpis/10749394/czy-warto-pamietac-prawdziwe-fakty-czy-pozwolic-na/", "Riposte");
-//        $randomAPI = new RandomAPI("68035530-0cd1-40dc-a8bf-bf6bd2f0d738", 100, 2);
-//        echo "<pre>";
-//        $response = $randomAPI->getResult();
-//        var_dump($response);
-//        echo "</pre>";
-//        var_dump($randomAPI);
-//        $random = new RandomPHP(15, 15);
-//        echo "<pre>";
-//        var_dump($random->getResult());
-//        echo "</pre>";
-        $fortuneWheel = new FortuneWheel("http://www.wykop.pl/wpis/10798900/najgorszy-sylwester-w-zyciu-ukroj-chleba-mowili-be/", "dzumper", 1);
-//        $fortuneWheel->getWinners();
-        echo "<pre>";
-        var_dump($fortuneWheel->getWinners());
-        echo "</pre>";
+        $form = new DrawForm();
+        if($this->getRequest()->isPost()){
+            $validator = new DrawFormValidator();
+            $form->setInputFilter($validator->getInputFilter());
+            $form->setData($this->params()->fromPost());
+            if($form->isValid()){
+                $data = $form->getData();
+                $fortuneWheel = new FortuneWheel($this->getEntityManager(), $data['baseLink'], $data['lastUpVoter'], $data['numbersAmount']);
+//                $fortuneWheel->getWinners();
+            }
+        }
+
+        return new ViewModel(array('form' => $form,));
     }
+
 }
