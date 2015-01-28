@@ -6,7 +6,7 @@
  * Time: 16:06
  */
 
-namespace Lottery\Model;
+namespace Lottery\Model\Random;
 
 use Zend\Http\Request;
 use Zend\Http\Client;

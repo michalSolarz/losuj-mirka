@@ -9,6 +9,8 @@
 namespace Lottery\Model;
 
 
+use Lottery\Model\Parser\Parser;
+
 class UpVoters
 {
     private $ajaxBaseLink = "http://www.wykop.pl/ajax2/";

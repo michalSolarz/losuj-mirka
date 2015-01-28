@@ -14,10 +14,10 @@ return array(
             'main' => array(
                 'type' => 'segment',
                 'options' => array(
-                    'route' => '/main[/][:action][/:id]',
+                    'route' => '/main[/][:action][/:hash]',
                     'constraints' => array(
                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                        'id' => '[0-9]+',
+                        'hash' => '[a-zA-Z0-9]+',
                     ),
                     'defaults' => array(
                         'controller' => 'Lottery\Controller\Main',

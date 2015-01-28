@@ -6,7 +6,7 @@
  * Time: 00:26
  */
 
-namespace Lottery\Model;
+namespace Lottery\Model\Parser;
 
 
 use Zend\Mvc\Controller\AbstractActionController;

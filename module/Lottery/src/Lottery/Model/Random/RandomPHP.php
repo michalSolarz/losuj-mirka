@@ -6,7 +6,7 @@
  * Time: 08:59
  */
 
-namespace Lottery\Model;
+namespace Lottery\Model\Random;
 
 
 class RandomPHP

@@ -83,6 +83,19 @@ class DrawForm implements InputFilterAwareInterface
                     ),
                 ))));
 
+            $inputFilter->add($factory->createInput(array(
+                'name' => 'visible',
+                'required' => true,
+                'filters' => array(
+                    array('name' => 'StripTags'),
+                    array('name' => 'StringTrim'),
+                ),
+                'validators' => array(
+                    array(
+                        'name' => 'Lottery\Validator\VisibleSelect',
+                    ),
+                ))));
+
             $this->inputFilter = $inputFilter;
 
         }

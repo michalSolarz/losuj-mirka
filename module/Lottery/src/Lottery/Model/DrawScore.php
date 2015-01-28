@@ -4,6 +4,7 @@
  * User: bezimienny
  * Date: 19.01.15
  * Time: 12:19
+ * Class used to save draw score into DB
  */
 
 namespace Lottery\Model;
@@ -13,7 +14,9 @@ use Lottery\Entity\DrawScore as DrawScoreEntity;
 
 class DrawScore
 {
-    private $drawLink;
+    private $visible;
+    private $hash;
+    private $baseLink;
     private $lastUser;
     private $upVoters;
     private $activeUpVoters;
@@ -25,17 +28,18 @@ class DrawScore
 
     protected $em;
 
-    public function __construct($em, $drawLink, $lastUser, $upVoters, $activeUpVoters, $inactiveUpVoters, $winners, $dataTarget = 0)
+    public function __construct($em, $visible, $baseLink, $lastUser, $upVoters, $activeUpVoters, $inactiveUpVoters, $winners, $dataTarget = 0)
     {
         $this->em = $em;
-        $this->drawLink = $drawLink;
+        if ($dataTarget != 0)
+            $this->dataTarget = $dataTarget;
+        $this->visible = $visible;
+        $this->baseLink = $baseLink;
         $this->lastUser = $lastUser;
         $this->upVoters = $upVoters;
         $this->activeUpVoters = $activeUpVoters;
         $this->inactiveUpVoters = $inactiveUpVoters;
         $this->winners = $winners;
-        if ($dataTarget != 0)
-            $this->dataTarget = $dataTarget;
         $this->proceed();
     }
 
@@ -53,6 +57,11 @@ class DrawScore
         }
     }
 
+    public function getHash()
+    {
+        return $this->hash;
+    }
+
 
     private function useDoctrine()
     {
@@ -60,7 +69,9 @@ class DrawScore
         $entity = $this->doctrineEntity();
         $entity->populate(array(
             'drawTime' => new \DateTime('now'),
-            'drawLink' => $this->drawLink,
+            'visible' => $this->visible,
+            'hash' => $this->generateHash(),
+            'baseLink' => $this->baseLink,
             'lastUser' => $this->lastUser,
             'upVoters' => $this->upVoters,
             'activeUpVoters' => $this->activeUpVoters,
@@ -77,5 +88,17 @@ class DrawScore
         return $this->dbEntity;
     }
 
+    private function generateHash()
+    {
+        $hashPartOne = md5(time());
+        $hashPartTwo = md5(rand(-time(), time()));
+        $startOne = rand(0, strlen($hashPartOne) - 10);
+        $startTwo = rand(0, strlen($hashPartTwo) - 5);
+        $hashPartOne = substr($hashPartOne, $startOne, 10);
+        $hashPartTwo = substr($hashPartTwo, $startTwo, 5);
+        $result = $hashPartOne . $hashPartTwo;
+        $this->hash = $result;
+        return $result;
+    }
 
 }

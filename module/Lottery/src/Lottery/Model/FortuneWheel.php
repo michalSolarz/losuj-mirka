@@ -9,9 +9,13 @@
 namespace Lottery\Model;
 
 
+use Lottery\Model\Random\RandomAPI;
+use Lottery\Model\Random\RandomPHP;
+
 class FortuneWheel
 {
     private $em;
+    private $visible;
 
     private $baseLink;
     private $lastUpVoter;
@@ -30,9 +34,10 @@ class FortuneWheel
 
     private $drawScore;
 
-    function __construct($em, $baseLink, $lastUpVoter, $numbersAmount, $apiKey = NULL)
+    function __construct($em, $visible, $baseLink, $lastUpVoter, $numbersAmount, $apiKey = NULL)
     {
         $this->em = $em;
+        $this->visible = $visible;
         $this->setBaseLink($baseLink);
         $this->setLastUpVoter($lastUpVoter);
         $this->setNumbersAmount($numbersAmount);
@@ -42,7 +47,7 @@ class FortuneWheel
         $this->loadUpVoters();
         $this->setResults();
         $this->setWinners();
-        $this->drawScore = new DrawScore($this->em, $this->baseLink, $this->lastUpVoter, $this->upVoters, $this->activeUpVoters, $this->inactiveUpVoters, $this->winners);
+        $this->drawScore = new DrawScore($this->em, $this->visible, $this->baseLink, $this->lastUpVoter, $this->upVoters, $this->activeUpVoters, $this->inactiveUpVoters, $this->winners);
     }
 
     private function setBaseLink($baseLink)
@@ -154,5 +159,9 @@ class FortuneWheel
     public function getWinners()
     {
         return $this->winners;
+    }
+
+    public function getDrawScore(){
+        return $this->drawScore;
     }
 }

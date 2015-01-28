@@ -1,0 +1,83 @@
+<?php
+if ($error) {
+    ?>
+    <div class="row">
+        <div class="col-md-12">
+            <div id="no-result">
+                <h1>Nie ma takiego losowania!</h1>
+            </div>
+        </div>
+    </div>
+<?php
+}
+if ($data != NULL) {
+    ?>
+    <div class="row">
+        <h1>Wyniki losowania</h1>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            Link do wpisu: <a href=" <?php echo $data->baseLink; ?>" target="_blank">wpis z Mirko</a>
+        </div>
+        <div class="col-md-4">
+            Ostatni plusujący mirek: <a
+                href="<?php echo 'http://www.wykop.pl/ludzie/' . $data->lastUser; ?>"
+                target="_blank"><?php echo $data->lastUser; ?></a>
+        </div>
+        <div class="col-md-4">
+            <?php if (count($data->winners) == 1) { ?>
+                Zwycięzca:
+            <?php } else {
+                ?>
+                Zwycięzcy:
+            <?php
+            } ?>  <?php
+            foreach ($data->winners as $item) {
+                ?>
+                <a
+                    href="<?php echo 'http://www.wykop.pl/ludzie/' . $item; ?>"
+                    target="_blank"><?php echo $item;?></a>
+            <?php
+            } ?>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            Lista plusujących mireczków:
+            <?php
+            foreach ($data->upVoters as $item) {
+                ?>
+                <div class="row"><a
+                        href="<?php echo 'http://www.wykop.pl/ludzie/' . $item; ?>"
+                        target="_blank"><?php echo $item; ?></a></div>
+            <?php
+            }
+            ?>
+        </div>
+        <div class="col-md-4">
+            Lista mireczków biorących udział w losowaniu:
+            <?php
+            foreach ($data->activeUpVoters as $item) {
+                ?>
+                <div class="row"><a
+                        href="<?php echo 'http://www.wykop.pl/ludzie/' . $item; ?>"
+                        target="_blank"><?php echo $item; ?></a></div>
+            <?php
+            }
+            ?>
+        </div>
+        <div class="col-md-4">
+            Lista mireczków niebiorących udziałi w losowaniu:
+            <?php
+            foreach ($data->inactiveUpVoters as $item) {
+                ?>
+                <div class="row"><a
+                        href="<?php echo 'http://www.wykop.pl/ludzie/' . $item; ?>"
+                        target="_blank"><?php echo $item; ?></a></div>
+            <?php
+            }
+            ?>
+        </div>
+    </div>
+<?php
+}

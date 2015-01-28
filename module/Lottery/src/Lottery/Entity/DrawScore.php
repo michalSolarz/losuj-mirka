@@ -26,8 +26,14 @@ class DrawScore
     /** @ORM\Column(type="datetime") */
     protected $drawTime;
 
+    /** @ORM\Column(type="boolean") */
+    protected $visible;
+
+    /** @ORM\Column(type="string", length=15) */
+    protected $hash;
+
     /** @ORM\Column(type="string", length=100) */
-    protected $drawLink;
+    protected $baseLink;
 
     /** @ORM\Column(type="string", length=40) */
     protected $lastUser;
@@ -82,24 +88,24 @@ class DrawScore
     /**
      * Set drawLink
      *
-     * @param string $drawLink
+     * @param string $baseLink
      * @return DrawScore
      */
-    public function setDrawLink($drawLink)
+    public function setBaseLink($baseLink)
     {
-        $this->drawLink = $drawLink;
+        $this->baseLink = $baseLink;
 
         return $this;
     }
 
     /**
-     * Get drawLink
+     * Get baseLink
      *
      * @return string
      */
-    public function getDrawLink()
+    public function getBaseLink()
     {
-        return $this->drawLink;
+        return $this->baseLink;
     }
 
     /**
@@ -217,10 +223,58 @@ class DrawScore
         return $this->winners;
     }
 
+    /**
+     * Set visible
+     *
+     * @param boolean $visible
+     * @return DrawScore
+     */
+    public function setVisible($visible)
+    {
+        $this->visible = $visible;
+
+        return $this;
+    }
+
+    /**
+     * Get visible
+     *
+     * @return boolean
+     */
+    public function getVisible()
+    {
+        return $this->visible;
+    }
+
+    /**
+     * Set hash
+     *
+     * @param string $hash
+     * @return DrawScore
+     */
+    public function setHash($hash)
+    {
+        $this->hash = $hash;
+
+        return $this;
+    }
+
+    /**
+     * Get hash
+     *
+     * @return string
+     */
+    public function getHash()
+    {
+        return $this->hash;
+    }
+
     public function  populate($data)
     {
         $this->setDrawTime($data['drawTime']);
-        $this->setDrawLink($data['drawLink']);
+        $this->setBaseLink($data['baseLink']);
+        $this->setVisible($data['visible']);
+        $this->setHash($data['hash']);
         $this->setLastUser($data['lastUser']);
         $this->setUpVoters($data['upVoters']);
         $this->setActiveUpVoters($data['activeUpVoters']);

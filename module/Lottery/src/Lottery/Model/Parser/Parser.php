@@ -6,7 +6,7 @@
  * Time: 15:37
  */
 
-namespace Lottery\Model;
+namespace Lottery\Model\Parser;
 
 use Zend\Di\Exception\MissingPropertyException;
 use /** @noinspection PhpDeprecationInspection */

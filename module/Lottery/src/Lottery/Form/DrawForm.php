@@ -45,6 +45,21 @@ class DrawForm extends Form
             ),
         ));
         $this->add(array(
+            'type' => 'Select',
+            'name' => 'visible',
+            'options' => array(
+                'label' => 'Czy wynik losowania ma być wyświetlany w archiwum?',
+                'value_options' => array(
+                    '0' => 'Nie',
+                    '1' => 'Tak',
+                ),
+
+            ),
+            'attributes' => array(
+                'value' => '1',
+            )
+        ));
+        $this->add(array(
             'type' => 'Zend\Form\Element\Csrf',
             'name' => 'csrf',
             'options' => array(

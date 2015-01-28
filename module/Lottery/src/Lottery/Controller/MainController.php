@@ -9,6 +9,8 @@
 namespace Lottery\Controller;
 
 
+use Doctrine\Common\Util\Debug;
+use Lottery\Model\DrawResult;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
@@ -32,13 +34,15 @@ class MainController extends AbstractActionController
     public function indexAction()
     {
         $form = new DrawForm();
-        if($this->getRequest()->isPost()){
+        if ($this->getRequest()->isPost()) {
             $validator = new DrawFormValidator();
             $form->setInputFilter($validator->getInputFilter());
             $form->setData($this->params()->fromPost());
-            if($form->isValid()){
+            if ($form->isValid()) {
                 $data = $form->getData();
-                $fortuneWheel = new FortuneWheel($this->getEntityManager(), $data['baseLink'], $data['lastUpVoter'], $data['numbersAmount']);
+                $fortuneWheel = new FortuneWheel($this->getEntityManager(), $data['visible'], $data['baseLink'], $data['lastUpVoter'], $data['numbersAmount']);
+                $hash = $fortuneWheel->getDrawScore()->getHash();
+                return $this->redirect()->toRoute('main', array('action' => 'showResult', 'hash' => $hash));
 //                $fortuneWheel->getWinners();
             }
         }
@@ -46,4 +50,30 @@ class MainController extends AbstractActionController
         return new ViewModel(array('form' => $form,));
     }
 
+    public function testAction()
+    {
+        $hash = '94c52c68a2593d2';
+        $result = new DrawResult($this->getEntityManager(), $hash);
+        $data = json_decode($result->getJson());
+        var_dump($data->winners);
+    }
+
+    public function showResultAction()
+    {
+        $hash = $this->params()->fromRoute('hash');
+        $error = false;
+        if (strlen($hash) != 15) {
+            throw new \Exception('Invalid hash.');
+        }
+        $result = new DrawResult($this->getEntityManager(), $hash);
+        if (!$result->properHash()) {
+            $data = NULL;
+            $error = true;
+            return new ViewModel(array('data' => $data, 'error' => $error));
+        }
+        $result->proceed();
+        $data = json_decode($result->getJson());
+        var_dump($data->winners);
+        return new ViewModel(array('data' => $data, 'error' => $error));
+    }
 }
