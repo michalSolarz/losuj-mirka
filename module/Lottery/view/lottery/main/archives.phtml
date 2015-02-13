@@ -1,0 +1,43 @@
+<?php $paging = $this->paginationHelper($pagedResults, $page, $limit, '/archives/');
+$this->inlineScript()->appendFile('/js/archives.js');
+?>
+<div class="row top-buffer">
+    <div class="col-md-12">
+        <div class="text-center">
+            <h1>Archiwa losowań</h1>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12"></div>
+    <table class="table table-striped" id="archives-table">
+        <thead>
+        <tr>
+            <th>Link do wpisu</th>
+            <th>Czas losowania</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php foreach ($pagedResults as $result) { ?>
+            <tr>
+                <td><a href="
+        <?php echo $this->escapeHtml($this->url('home', array(), array('force_canonical' => true)) . 'main/showResult/' . $result->getHash()); ?>
+                " target="_blank">
+                        <?php
+                        echo $this->escapeHtml($this->url('home', array(), array('force_canonical' => true)) . 'main/showResult/' . $result->getHash());
+                        ?>
+                    </a></td>
+                <td><?php echo $this->escapeHtml($result->getDrawTime()->format('Y-m-d H:i:s')); ?></td>
+            </tr>
+        <?php } ?>
+        </tbody>
+    </table>
+</div>
+<hr>
+<div class="row">
+    <div class="col-md-12">
+        <div class="text-center">
+            <?php echo $paging; ?>
+        </div>
+    </div>
+</div>

@@ -12,7 +12,9 @@ namespace Lottery\Controller;
 use Doctrine\Common\Util\Debug;
 use Lottery\Model\DrawResult;
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 use Lottery\Model\FortuneWheel;
 use Lottery\Form\DrawForm;
@@ -43,7 +45,6 @@ class MainController extends AbstractActionController
                 $fortuneWheel = new FortuneWheel($this->getEntityManager(), $data['visible'], $data['baseLink'], $data['lastUpVoter'], $data['numbersAmount']);
                 $hash = $fortuneWheel->getDrawScore()->getHash();
                 return $this->redirect()->toRoute('main', array('action' => 'showResult', 'hash' => $hash));
-//                $fortuneWheel->getWinners();
             }
         }
 
@@ -73,7 +74,45 @@ class MainController extends AbstractActionController
         }
         $result->proceed();
         $data = json_decode($result->getJson());
-        var_dump($data->winners);
+
         return new ViewModel(array('data' => $data, 'error' => $error));
     }
+
+    public function archivesAction()
+    {
+        $page = $this->params()->fromRoute('page', 1);
+        $limit = $this->params()->fromRoute('limit', 10);
+
+        if ($page < 1)
+            $page = 1;
+
+        $drawResult = new DrawResult($this->getEntityManager());
+
+
+        $pagedResults = $drawResult->getPagedResults($page, $limit);
+
+        $viewModel = new ViewModel();
+        $viewModel->setVariable('pagedResults', $pagedResults);
+        $viewModel->setVariable('page', $page);
+        $viewModel->setVariable('limit', $limit);
+
+        return $viewModel;
+    }
+
+    public function ajaxArchivesAction()
+    {
+        $page = $this->params()->fromRoute('page', 1);
+        $limit = $this->params()->fromRoute('limit', 10);
+
+        if ($page < 1)
+            $page = 1;
+
+        $drawResult = new DrawResult($this->getEntityManager());
+
+        $url = $this->url()->fromRoute('home', array(), array('force_canonical' => true));
+
+        return new JsonModel(
+            $drawResult->getResultsForAjax($page, $limit, $url));
+    }
+
 }

@@ -1,18 +1,42 @@
-<?php
-$form = $this->form;
-$form->setAttribute('action', $this->url('main', array('action' => 'index')));
-$form->prepare();
-
-echo $this->form()->openTag($form);
+<?php $this->inlineScript()->appendFile('/js/main-index.js');
 ?>
-    <div class="draw">
-        <?php echo $this->formRow($form->get('baseLink')); ?>
-        <?php echo $this->formRow($form->get('lastUpVoter')); ?>
-        <?php echo $this->formRow($form->get('numbersAmount')); ?>
-        <?php echo $this->formRow($form->get('visible')); ?>
-        <?php echo $this->formRow($form->get('csrf')); ?>
-        <?php echo $this->formRow($form->get('submit')); ?>
+    <div class="row top-buffer bottom-buffer">
+        <div class="col-md-12 text-center">
+            <h1 class="title">LOSUJ-MIRKA</h1>
+        </div>
     </div>
+<div class="row">
+    <div class="col-md-12 text-center">
+        <?php
+        $form = $this->form;
+        $form->setAttribute('action', $this->url('main', array('action' => 'index')));
+        $form->prepare();
+
+        echo $this->form()->openTag($form);
+        ?>
+
+        <div class="row">
+            <div class="col-md-12 form-group">
+                <?php echo $this->formRow($form->get('baseLink')); ?>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-5 col-md-offset-1 form-group">
+                <?php echo $this->formRow($form->get('lastUpVoter')); ?>
+            </div>
+            <div class="col-md-5 form-group">
+                <?php echo $this->formRow($form->get('numbersAmount')); ?>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-md-offset-2 form-group">
+                <?php echo $this->formRow($form->get('visible')); ?>
+            </div>
+            <?php echo $this->formRow($form->get('csrf')); ?>
+            <div class="col-md-4 form-group">
+                <?php echo $this->formRow($form->get('submit')); ?>
+            </div>
+        </div>
 <?php
 echo $this->form()->closeTag();
 ?>

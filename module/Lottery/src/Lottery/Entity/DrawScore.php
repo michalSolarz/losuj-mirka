@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Table(name="draw_score")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Lottery\Repository\DrawScoreRepository")
  */
 class DrawScore
 {

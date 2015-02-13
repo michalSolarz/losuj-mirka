@@ -25,6 +25,20 @@ return array(
                     ),
                 ),
             ),
+            'archives' => array(
+                'type' => 'segment',
+                'options' => array(
+                    'route' => '/archives[/][:action][/:page][/:limit]',
+                    'constraints' => array(
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'hash' => '[a-zA-Z0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Lottery\Controller\Main',
+                        'action' => 'archives',
+                    ),
+                ),
+            ),
         ),
     ),
 
@@ -32,6 +46,14 @@ return array(
         'template_path_stack' => array(
             'lottery' => __DIR__ . '/../view',
         ),
+        'strategies' => array(
+            'ViewJsonStrategy',
+        ),
+    ),
+    'view_helpers' => array(
+        'invokables' => array(
+            'paginationHelper' => 'Lottery\View\Helper\PaginationHelper'
+        )
     ),
     'doctrine' => array(
         'driver' => array(

@@ -21,34 +21,34 @@ class DrawForm extends Form
             'name' => 'baseLink',
             'attributes' => array(
                 'type' => 'text',
+                'placeholder' => 'Link do wpisu',
+                'class' => 'form-control',
             ),
             'options' => array(
-                'label' => 'Link do wpisu: ',
+
             ),
         ));
         $this->add(array(
             'name' => 'lastUpVoter',
             'attributes' => array(
                 'type' => 'text',
-            ),
-            'options' => array(
-                'label' => 'Ostatni plusujący mirek: ',
+                'class' => 'form-control',
+                'placeholder' => 'Ostatni plusujący mirek',
             ),
         ));
         $this->add(array(
             'name' => 'numbersAmount',
             'attributes' => array(
                 'type' => 'text',
-            ),
-            'options' => array(
-                'label' => 'Ilość mirków do wylosowania: ',
+                'class' => 'form-control',
+                'placeholder' => 'Ilość mirków do wylosowania',
             ),
         ));
         $this->add(array(
             'type' => 'Select',
             'name' => 'visible',
             'options' => array(
-                'label' => 'Czy wynik losowania ma być wyświetlany w archiwum?',
+                'label' => 'Czy losowanie ma być widoczne?',
                 'value_options' => array(
                     '0' => 'Nie',
                     '1' => 'Tak',
@@ -57,6 +57,7 @@ class DrawForm extends Form
             ),
             'attributes' => array(
                 'value' => '1',
+                'class' => 'form-control',
             )
         ));
         $this->add(array(
@@ -72,6 +73,7 @@ class DrawForm extends Form
             'name' => 'submit',
             'attributes' => array(
                 'type' => 'submit',
+                'class' => 'form-control',
                 'value' => 'Losuj!',
                 'id' => 'submit-button',
             ),
