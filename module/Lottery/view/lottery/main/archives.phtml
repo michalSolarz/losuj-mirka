@@ -1,5 +1,9 @@
-<?php $paging = $this->paginationHelper($pagedResults, $page, $limit, '/archives/');
+<?php
+$this->headTitle('Archiwa losowań');
+$paging = $this->paginationHelper($pagedResults, $page, $limit, '/archives/');
+$this->inlineScript()->appendFile('/js/jquery.twbsPagination.min.js');
 $this->inlineScript()->appendFile('/js/archives.js');
+
 ?>
 <div class="row top-buffer">
     <div class="col-md-12">
@@ -28,6 +32,7 @@ $this->inlineScript()->appendFile('/js/archives.js');
                         ?>
                     </a></td>
                 <td><?php echo $this->escapeHtml($result->getDrawTime()->format('Y-m-d H:i:s')); ?></td>
+                <td><?php \Doctrine\Common\Util\Debug::dump($result->getDrawTime()); ?></td>
             </tr>
         <?php } ?>
         </tbody>
@@ -36,8 +41,12 @@ $this->inlineScript()->appendFile('/js/archives.js');
 <hr>
 <div class="row">
     <div class="col-md-12">
-        <div class="text-center">
-            <?php echo $paging; ?>
+        <div class="text-center" id="paging">
+            <?php
+            if (count($pagedResults) != 0) {
+                echo $paging;
+            }
+            ?>
         </div>
     </div>
 </div>

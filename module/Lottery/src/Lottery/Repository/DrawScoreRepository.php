@@ -32,4 +32,17 @@ class DrawScoreRepository extends EntityRepository
 
         return $paginator;
     }
+    public function countPages($limit){
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+
+        $qb->select('count(score.drawScoreId)')
+            ->from('Lottery\Entity\DrawScore', 'score')
+            ->where('score.visible = ?1')
+            ->setParameter(1, true);
+        $amount = $qb->getQuery()->getSingleScalarResult();
+
+        $result = ceil($amount / $limit);
+        return $result;
+    }
 }

@@ -51,14 +51,6 @@ class MainController extends AbstractActionController
         return new ViewModel(array('form' => $form,));
     }
 
-    public function testAction()
-    {
-        $hash = '94c52c68a2593d2';
-        $result = new DrawResult($this->getEntityManager(), $hash);
-        $data = json_decode($result->getJson());
-        var_dump($data->winners);
-    }
-
     public function showResultAction()
     {
         $hash = $this->params()->fromRoute('hash');
@@ -99,6 +91,15 @@ class MainController extends AbstractActionController
         return $viewModel;
     }
 
+    public function countPagesAction(){
+        $limit = $this->params()->fromRoute('limit', 10);
+
+        $drawResult = new DrawResult($this->getEntityManager());
+
+        return new JsonModel(
+            $drawResult->countPages($limit));
+    }
+
     public function ajaxArchivesAction()
     {
         $page = $this->params()->fromRoute('page', 1);
@@ -114,5 +115,4 @@ class MainController extends AbstractActionController
         return new JsonModel(
             $drawResult->getResultsForAjax($page, $limit, $url));
     }
-
 }

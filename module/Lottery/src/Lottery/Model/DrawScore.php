@@ -68,7 +68,7 @@ class DrawScore
         $em = $this->getEntityManager();
         $entity = $this->doctrineEntity();
         $entity->populate(array(
-            'drawTime' => new \DateTime('now'),
+            'drawTime' => new \DateTime('now', new \DateTimeZone('Europe/Berlin')),
             'visible' => $this->visible,
             'hash' => $this->generateHash(),
             'baseLink' => $this->baseLink,

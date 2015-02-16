@@ -112,23 +112,21 @@ class DrawResult
         return $pagedResults;
     }
 
+    public function countPages($limit)
+    {
+        switch ($this->dataTarget) {
+            case 0:
+                $em = $this->getEntityManager();
+                $pagesAmount = $em->getRepository('Lottery\Entity\DrawScore')->countPages($limit);
+        }
+        return array('pagesAmount' => $pagesAmount);
+    }
+
     public function getResultsForAjax($page, $limit, $url)
     {
-        if ($page - 1 <= 0)
-            $previousPage = NULL;
-        else
-            $previousPage = $this->getParams($this->getPagedResults($page - 1, $limit), $url);
-
         $currentPage = $this->getParams($this->getPagedResults($page, $limit), $url);
 
-        $nextPage = $this->getParams($this->getPagedResults($page + 1, $limit), $url);
-        if ($nextPage == NULL)
-            $nextPage = NULL;
-
-        return array('result' => $currentPage,
-            'page' => $page,
-            'firstPage' => false,
-            'lastPage' => false,);
+        return array('result' => $currentPage,);
     }
 
     private function getParams($input, $url)
@@ -137,9 +135,10 @@ class DrawResult
         $i = 0;
 
         foreach ($input as $item) {
+            $result .= '<tr>';
             $result .= $this->generateElement('td', $this->generateUrl($url . 'main/showResult/' . $item->getHash(), $url . 'main/showResult/' . $item->getHash()));
             $result .= $this->generateElement('td', $item->getDrawTime()->format('Y-m-d H:i:s'));
-            $result = $this->generateElement('tr', $result);
+            $result .= '</tr>';
 
             $i++;
         }
@@ -163,7 +162,8 @@ class DrawResult
         return $result;
     }
 
-    private function generateUrl($url, $value, $class = NULL, $id = NULL, $name = NULL){
+    private function generateUrl($url, $value, $class = NULL, $id = NULL, $name = NULL)
+    {
         $result = '<a';
         if ($class != NULL)
             $result .= ' class="' . $class . '"';
@@ -171,7 +171,7 @@ class DrawResult
             $result .= 'id="' . $id . '"';
         if ($name != NULL)
             $result .= 'name="' . $name . '"';
-        $result .= ' href="'.$url.'">'.$value.'</a>';
+        $result .= ' href="' . $url . '">' . $value . '</a>';
         return $result;
     }
 }

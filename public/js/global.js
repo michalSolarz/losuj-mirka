@@ -17,4 +17,4 @@ $(document).ready(function () {
 });
 function removeClass(target, input) {
     $(target).removeClass(input);
-};
+}
