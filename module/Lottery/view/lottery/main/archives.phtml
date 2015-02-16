@@ -1,5 +1,7 @@
 <?php $paging = $this->paginationHelper($pagedResults, $page, $limit, '/archives/');
+$this->inlineScript()->appendFile('/js/jquery.twbsPagination.min.js');
 $this->inlineScript()->appendFile('/js/archives.js');
+
 ?>
 <div class="row top-buffer">
     <div class="col-md-12">
@@ -36,7 +38,7 @@ $this->inlineScript()->appendFile('/js/archives.js');
 <hr>
 <div class="row">
     <div class="col-md-12">
-        <div class="text-center">
+        <div class="text-center" id="paging">
             <?php echo $paging; ?>
         </div>
     </div>

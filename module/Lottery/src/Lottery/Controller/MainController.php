@@ -99,6 +99,15 @@ class MainController extends AbstractActionController
         return $viewModel;
     }
 
+    public function countPagesAction(){
+        $limit = $this->params()->fromRoute('limit', 10);
+
+        $drawResult = new DrawResult($this->getEntityManager());
+
+        return new JsonModel(
+            $drawResult->countPages($limit));
+    }
+
     public function ajaxArchivesAction()
     {
         $page = $this->params()->fromRoute('page', 1);

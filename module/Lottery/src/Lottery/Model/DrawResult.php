@@ -112,6 +112,16 @@ class DrawResult
         return $pagedResults;
     }
 
+    public function countPages($limit)
+    {
+        switch ($this->dataTarget) {
+            case 0:
+                $em = $this->getEntityManager();
+                $pagesAmount = $em->getRepository('Lottery\Entity\DrawScore')->countPages($limit);
+        }
+        return array('pagesAmount' => $pagesAmount);
+    }
+
     public function getResultsForAjax($page, $limit, $url)
     {
         if ($page - 1 <= 0)
@@ -163,7 +173,8 @@ class DrawResult
         return $result;
     }
 
-    private function generateUrl($url, $value, $class = NULL, $id = NULL, $name = NULL){
+    private function generateUrl($url, $value, $class = NULL, $id = NULL, $name = NULL)
+    {
         $result = '<a';
         if ($class != NULL)
             $result .= ' class="' . $class . '"';
@@ -171,7 +182,7 @@ class DrawResult
             $result .= 'id="' . $id . '"';
         if ($name != NULL)
             $result .= 'name="' . $name . '"';
-        $result .= ' href="'.$url.'">'.$value.'</a>';
+        $result .= ' href="' . $url . '">' . $value . '</a>';
         return $result;
     }
 }

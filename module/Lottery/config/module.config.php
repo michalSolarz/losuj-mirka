@@ -31,11 +31,27 @@ return array(
                     'route' => '/archives[/][:action][/:page][/:limit]',
                     'constraints' => array(
                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                        'hash' => '[a-zA-Z0-9]+',
+                        'page' => '[0-9]+',
+                        'limit' => '[0-9]+',
                     ),
                     'defaults' => array(
                         'controller' => 'Lottery\Controller\Main',
                         'action' => 'archives',
+                    ),
+                ),
+            ),
+            'countPages' => array(
+                'type' => 'segment',
+                'options' => array(
+                    'route' => '/countPages[/][:action][/:limit]',
+                    'constraints' => array(
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'limit' => '[0-9]+'
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Lottery\Controller\Main',
+                        'action' => 'countPages',
+                        'limit' => 10,
                     ),
                 ),
             ),
