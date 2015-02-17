@@ -30,7 +30,7 @@ class RandomPHP
     private function setUpLimit($upLimit)
     {
         if (!isset($this->upLimit))
-            $this->upLimit = $upLimit;
+            $this->upLimit = $upLimit - 1;
     }
 
     private function setCount($count)
